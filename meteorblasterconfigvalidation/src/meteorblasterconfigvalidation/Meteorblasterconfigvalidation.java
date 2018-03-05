@@ -23,6 +23,36 @@ public class Meteorblasterconfigvalidation {
      *
      * @param scan
      */
+    public static void validateFileLocation(String curline) {
+        Pattern p;
+        Matcher checker;
+
+        p = Pattern.compile("\\.[\\s+._/]");
+        checker = p.matcher(curline);
+
+        if (checker.find()) {
+            System.err.println("FORMAT ERROR- '.' must have a letter after it");
+            System.err.println(curline + System.lineSeparator());
+        }
+
+        p = Pattern.compile("\\/[\\s+._/]");
+        checker = p.matcher(curline);
+
+        if (checker.find()) {
+            System.err.println("FORMAT ERROR- '/' must have a letter after it");
+            System.err.println(curline + System.lineSeparator());
+        }
+
+        p = Pattern.compile("\\_[\\s+._/]");
+        checker = p.matcher(curline);
+
+        checker = p.matcher(curline);
+        if (curline.split("[_]").length > 1 && checker.find()) {
+            System.err.println("FORMAT ERROR- '_' must have a letter  after it");
+            System.err.println(curline + System.lineSeparator());
+        }
+    }
+
     public static void validateRanks(Scanner scan) {
         int prevRank = 0;
         int prevScore = -1;
@@ -109,34 +139,7 @@ public class Meteorblasterconfigvalidation {
     public static void validateSounds(Scanner scan) {
         for (int i = 0; i < 5; i++) {
             String curline = scan.nextLine();
-            Pattern p; 
-            Matcher checker;
-            
-            p = Pattern.compile("\\.[\\s+._/]");
-            checker = p.matcher(curline);
-            
-            if (checker.find()) {
-                System.err.println("FORMAT ERROR- '.' must have a letter after it");
-                System.err.println(curline+System.lineSeparator());
-            }
-            
-            p = Pattern.compile("\\/[\\s+._/]"); 
-            checker = p.matcher(curline);
-            
-            if (checker.find()) {
-                System.err.println("FORMAT ERROR- '/' must have a letter after it");
-                System.err.println(curline+System.lineSeparator());
-            }
-            
-             p = Pattern.compile("\\_[\\s+._/]"); 
-            checker = p.matcher(curline);
-            
-            checker = p.matcher(curline);
-            if (curline.split("[_]").length > 1&&checker.find()) {
-                System.err.println("FORMAT ERROR- '_' must have a letter  after it");
-                System.err.println(curline+System.lineSeparator());
-            }
-            
+            validateFileLocation(curline);
         }
     }
 
@@ -148,7 +151,43 @@ public class Meteorblasterconfigvalidation {
      * @return
      */
     public static void validateLevels(Scanner scan) {
+        while (scan.hasNext()) {
+            String curline = scan.nextLine();
+            //System.out.println(curline); //---------------------------------------testing purpose
+            if (curline.trim().equals("*")) {
+                break;
+            }
+            String[] inputTypes = curline.split(",");
+            if (!curline.matches("\\d+\\s*\\,\\s*\\d+\\s*\\,\\s*\\d+\\s*\\,\\s*\\d+\\s*\\,\\s*\\w+\\/\\w+\\s*.\\w+")) {
+                if (inputTypes.length != 5) {
+                    System.err.print("FORMAT ERROR- ");
+                    System.err.println("Expecting 5 inputs, found " + inputTypes.length);
+                    System.err.println(curline);
+                    break;
+                } else {
+                    Pattern p;
+                    Matcher checker;
 
+                    p = Pattern.compile("^\\d+\\s*\\W");
+                    checker = p.matcher(curline);
+                    for (int i = 0; i < 4; i++) {
+                        if (!inputTypes[i].matches("\\s*\\d+\\s*")) {
+                            System.err.print("FORMAT ERROR- ");
+                            System.err.println("Invalid input type '" + inputTypes[i] + "' Integer expected");
+                            System.err.println(System.lineSeparator() + curline);
+                            break;
+                        }
+                    }
+                    if(inputTypes[4].matches("^\\w+\\s*")){
+                        validateFileLocation(inputTypes[4]);
+                    } else {
+                        System.err.print("FORMAT ERROR- ");
+                        System.err.println("Invalid input type '" + inputTypes[4] + "' String expected");
+                    }
+                    
+                }
+            }
+        }
     }
 
     /**
@@ -185,6 +224,7 @@ public class Meteorblasterconfigvalidation {
             Scanner scan = new Scanner(new File(filename));
             validateRanks(scan);
             validateSounds(scan);
+            validateLevels(scan);
         } catch (java.io.FileNotFoundException e) {
             System.err.println("Could not find file: " + filename);
         }

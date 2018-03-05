@@ -1,0 +1,35 @@
+0, Space_Cadet, 0
+1 ,Ensign, 1000
+2 , Lieutenant_Junior_Grade ,2500
+3 ,Lieutenant, 9000
+4, Lieutenant_Commander, 12000
+5 ,Commander, 15000
+6 ,Captain, 18000
+7, Rear_Admiral_Lower, 21000
+8 ,Rear_Admiral_Upper, 24000
+9, Vice_Admiral ,27000
+10, Admiral, 30000
+11, Fleet_Admiral, 35000
+12, King_Of_Games, 1000000
+*
+resources/tng_engine_1.mp3
+resources/smallexplosion1.mp3
+resources/computerbeep_13.mp3
+resources/transporter.mp3
+resources/shieldsfailing.mp3
+1, 2 ,2,6 ,images/spaceScene4.jpg
+3, 5 ,3,10,images/space2.jpg
+6, 9 ,4 ,14, images/space3.jpg
+10, 15 ,6 ,18, images/space4.jpg
+*
+images/craft0.png  ,images/craft1.png    ,   images/craft2.png
+resources/fireTorpedo.mp3
+0.25 0.05    5.0
+images/astroidsheet2.png
+30 4 4 6.0
+images/explosion.png
+4 4
+
+
+
+
