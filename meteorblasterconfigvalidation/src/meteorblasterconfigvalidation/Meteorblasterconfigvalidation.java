@@ -153,7 +153,7 @@ public class Meteorblasterconfigvalidation {
     public static void validateLevels(Scanner scan) {
         while (scan.hasNext()) {
             String curline = scan.nextLine();
-            //System.out.println(curline); //---------------------------------------testing purpose
+           
             if (curline.trim().equals("*")) {
                 break;
             }
@@ -173,7 +173,7 @@ public class Meteorblasterconfigvalidation {
                     for (int i = 0; i < 4; i++) {
                         if (!inputTypes[i].matches("\\s*\\d+\\s*")) {
                             System.err.print("FORMAT ERROR- ");
-                            System.err.println("Invalid input type '" + inputTypes[i] + "' Integer expected");
+                            System.err.println("Invalid input type '" + inputTypes[i] + "' positive Integer expected");
                             System.err.println(System.lineSeparator() + curline);
                             break;
                         }
