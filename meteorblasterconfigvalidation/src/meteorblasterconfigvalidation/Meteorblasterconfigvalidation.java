@@ -18,10 +18,9 @@ import java.util.regex.Pattern;
 public class Meteorblasterconfigvalidation {
 
     /**
-     * Specifically validates part of the file with RankData will state any
-     * errors
+     * validates any errors related to the files location
      *
-     * @param scan
+     * @param curline
      */
     public static void validateFileLocation(String curline) {
         Pattern p;
@@ -153,7 +152,7 @@ public class Meteorblasterconfigvalidation {
     public static void validateLevels(Scanner scan) {
         while (scan.hasNext()) {
             String curline = scan.nextLine();
-           
+
             if (curline.trim().equals("*")) {
                 break;
             }
@@ -178,13 +177,13 @@ public class Meteorblasterconfigvalidation {
                             break;
                         }
                     }
-                    if(inputTypes[4].matches("^\\w+\\s*")){
+                    if (inputTypes[4].matches("^\\w+\\s*")) {
                         validateFileLocation(inputTypes[4]);
                     } else {
                         System.err.print("FORMAT ERROR- ");
                         System.err.println("Invalid input type '" + inputTypes[4] + "' String expected");
                     }
-                    
+
                 }
             }
         }
@@ -197,6 +196,32 @@ public class Meteorblasterconfigvalidation {
      * @return
      */
     public static void validateCraft(Scanner scan) {
+        if (scan.hasNext()) {
+            String curline = scan.nextLine();
+            String[] inputTypes = curline.split(",");
+            for (int i = 0; i < inputTypes.length; i++) {
+                validateFileLocation(inputTypes[i]);
+            }
+            curline = scan.nextLine();
+            validateFileLocation(curline);
+            curline = scan.nextLine();
+            System.out.println(curline);
+            inputTypes = curline.split("\\s+");
+
+            if (inputTypes.length != 3) {
+                System.err.print("FORMAT ERROR- ");
+                System.err.println("Expecting 3 inputs, found " + inputTypes.length);
+                System.err.println(curline);
+            } else {
+                for (int i = 0; i < inputTypes.length; i++) {
+                    if (!inputTypes[i].matches("[0-9](\\.[0-9]+)\\s*") && !inputTypes[i].matches("\\d\\s*")) {
+                        System.err.print("FORMAT ERROR- ");
+                        System.err.println("Invalid input type '" + inputTypes[i] + "' Double or Integer expected");
+                        System.err.println(System.lineSeparator() + curline);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -225,6 +250,7 @@ public class Meteorblasterconfigvalidation {
             validateRanks(scan);
             validateSounds(scan);
             validateLevels(scan);
+            validateCraft(scan);
         } catch (java.io.FileNotFoundException e) {
             System.err.println("Could not find file: " + filename);
         }
